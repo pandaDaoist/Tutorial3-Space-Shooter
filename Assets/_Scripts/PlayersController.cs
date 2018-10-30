@@ -10,13 +10,26 @@ public class Boundary
 public class PlayersController : MonoBehaviour
 {
     private Rigidbody rb;
+    private float nextFire;
 
     public float speed, tilt;
+    public float fireRate;
     public Boundary boundary;
+    public GameObject shot;
+    public Transform shotSpawn;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+    }
+
+    void Update()
+    {
+       if(Input.GetButton("Fire1") && Time.time > nextFire)
+        {
+            nextFire = Time.time + fireRate;
+            Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+        }
     }
 
     void FixedUpdate()
@@ -36,4 +49,6 @@ public class PlayersController : MonoBehaviour
 
         rb.rotation = Quaternion.Euler(0.0f, 0.0f, rb.velocity.x * -tilt);
     }
+
+
 }
